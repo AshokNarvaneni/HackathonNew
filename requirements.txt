@@ -1,0 +1,9 @@
+fastapi
+openai
+pydantic
+uvicorn[standard]
+boto3
+pyodbc
+pandas
+sqlalchemy
+pymssql

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
+<style>
+    body {
+    font-family: 'Open Sans';font-size: 22px;
+    background-color: #444654;
+    margin: 0;
+    padding: 0;
+    color:#fff ;
+}
+.mainContainer {
+    box-sizing: border-box;    
+}
+.textAreaBlock {
+    display:inline-block;
+  position:fixed;
+  width: 100%;
+  bottom:20px;
+  left: 0;
+  
+}
+textarea {
+  resize: none;
+  --tw-shadow: 0 0 transparent;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #40414f;
+    border-color: #40414f;
+    border-radius: 5px;
+    border-width: 1px;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    padding: 0.5rem 0.75rem;
+    box-shadow: --1px -1px 7px 0px rgba(142,142,160,0.61);
+    -webkit-box-shadow: -1px -1px 7px 0px rgba(142,142,160,0.61);
+    -moz-box-shadow: --1px -1px 7px 0px rgba(142,142,160,0.61);
+    border: none;
+    height: 38px;
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 20px;
+    display: flex;
+    color: #fff;
+    outline:0;
+}
+
+
+button{
+  position:absolute;
+  right: 155px;
+    top: 29px;
+  background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+img {
+    cursor: pointer;
+    width: 35px;
+    height: 35px;
+}
+.answerBlock {
+    width: 80%;
+    margin: 0 auto;  
+    background-color: transparent;
+    color: #fff;
+    margin-bottom: 100px;
+    padding: 5px; 
+    padding-left: 20px;
+    font-size: 14px;
+    line-height: 22px;
+   
+}
+.questionBlock{  
+     padding:10px;
+     background-color: #343541;
+     margin-top: 100px;  
+  
+}
+.questionBlock p {
+    width: 80%;
+    margin: 0 auto;
+    font-size: 16px;
+}
+.heading {
+    text-align: center;  
+    background-color: #343541;
+    position: fixed;
+    top:0;
+    left: 0;
+    right: 0;
+    margin: 0;
+}
+
+.myTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.myTable th,
+.myTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.myTable th {
+    background-color: #343541;
+    color: white;
+}
+
+.myTable tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+</style>
+
+<script>
+
+        // Function to clear the local storage
+        function clearLocalStorage() {
+            localStorage.clear();
+        }
+ 
+        // Add an event listener to the beforeunload event
+        window.addEventListener('beforeunload', function() {
+            clearLocalStorage();
+        });
+
+    async function sendAction() {
+        
+        // You can retrieve the data from local storage later using:
+        var retrievedData = JSON.parse(localStorage.getItem("myMessagesData"));
+        
+        const defaultMessage = {
+        role: "assistant",
+        content: "you are SQL query generator AI model"
+        };
+        let messagesToSend;
+    if (retrievedData !== null) {
+        messagesToSend = retrievedData; 
+    } else {
+        messagesToSend = [defaultMessage];
+    }
+        const requestData = {
+            text: document.getElementById('sendText').value,
+            messages: messagesToSend,
+            table: "users"
+        };
+   
+        
+        const response = await fetch('/action', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestData),
+        });
+
+        const result = await response.json();
+        
+        // Convert the data to a JSON string
+        var dataToStoreString = JSON.stringify(result.messages);
+ 
+        // Store the data in local storage
+        localStorage.setItem("myMessagesData", dataToStoreString);
+ 
+         // Update the answerBlock with the response data
+        document.querySelector('.questionBlock').innerHTML =  requestData.text; 
+
+        // Handle the response data
+
+    const table = document.createElement('table');
+    table.classList.add('myTable'); // Add a class for styling
+
+    // Add table header row
+    const thead = table.createTHead();
+    const headerRow = thead.insertRow();
+    // Assuming all objects have the same keys, use the keys from the first object for column headers
+    const headers = Object.keys(result.data[0]);
+    headers.forEach(headerText => {
+        const headerCell = document.createElement('th');
+        headerCell.textContent = headerText;
+        headerRow.appendChild(headerCell);
+    });
+
+    // Add table body rows
+    const tbody = table.createTBody();
+    result.data.forEach(obj => {
+        const row = tbody.insertRow();
+        Object.values(obj).forEach(text => {
+            const cell = row.insertCell();
+            cell.textContent = text; // insert data into cells
+        });
+    });
+
+    // Append the table to .answerBlock or replace existing content
+    const answerBlock = document.querySelector('.answerBlock');
+    answerBlock.innerHTML = ''; // Clear existing content
+    answerBlock.appendChild(table); // Append the new table
+
+    }
+</script>
+
+</head>
+<body>
+<div class="mainContainer">
+    <h1 class="heading">AI SNIPERS</h1>
+    <div class="questionBlock"> </div>
+    <div class="answerBlock"> </div>
+        <div class="textAreaBlock">
+            <textarea name="" id="sendText" cols="20" rows="5" placeholder="Send a message.."></textarea>   
+            <button type="button" id="action-button" onclick="sendAction()"><img src="sendBtn.png" /></button>
+        </div>
+</div>
+</body>
+</html>
+
