@@ -41,7 +41,7 @@ openai.chat.completions.create(
 class Item(BaseModel):
     text: str
     messages: list = []
-    table: str = "filter"
+    tables: list = []
     
 @app.get("/", response_class=HTMLResponse)
 def read_root(request: Request):     
@@ -54,21 +54,23 @@ def hello_world():
 
 @app.post("/action")
 async def root(item: Item):
-    print("Action method called")
     text = item.text
     messages = item.messages
+    table_names = item.tables
 
     messages.append(
         {"role": "assistant", "content": "you are sql query generator AI model"})
 
     messages.append({"role": "user", "content": text})
     
-    _new_dataframe = dataframes.get(item.table, None)
+    # _new_dataframe = dataframes.get(item.table, None)
+    combined_prompt = combine_prompts(dataframes, table_names, text)
+
 
     # _new_dataframe.info()
 
     (result, _messages) = get_prompt_result(
-        {"MESSAGES": messages, "QUERY": combine_prompts({item.table: _new_dataframe}, text)})
+        {"MESSAGES": messages, "QUERY": combined_prompt})
      
     print("Response result: ", result)
     messages = _messages

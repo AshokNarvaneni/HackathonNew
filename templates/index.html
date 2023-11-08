@@ -76,7 +76,7 @@ img {
 .questionBlock{  
      padding:10px;
      background-color: #343541;
-     margin-top: 100px;  
+     margin-top: 20px;  
   
 }
 .questionBlock p {
@@ -115,6 +115,53 @@ img {
     background-color: #343541;
     color: white;
 }
+.tab-container {
+            display: flex;
+            justify-content:center;
+            padding:40px;
+            margin-top: 35px
+        }
+        
+
+        .tab-input {
+            display: none;
+        }
+
+        .tab-label {
+            padding: 5px;
+            cursor: pointer;
+            background-color: #eee;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            margin: 5px;
+            text-align: center;
+          width: 250px;
+          color: black;
+        }
+
+        .tab-label:hover {
+            
+              background-color: #343541;
+  color: white;
+        }
+
+        .tab-input:checked + .tab-label {
+            background-color: #343541;
+            color: white;
+        }
+        .tab-input:checked + .tab-label + .tab-panel {
+            display: block;
+        }
+        .tab-panel {
+            display: none;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin: 5px;
+        }
+
+      
+
 
 </style>
 
@@ -148,7 +195,7 @@ img {
         const requestData = {
             text: document.getElementById('sendText').value ,
             messages: messagesToSend,
-            table: "users"
+            tables: ["users", "userequipments"]
         };
    
         
@@ -210,13 +257,32 @@ img {
 <body>
 <div class="mainContainer">
     <h1 class="heading">AI SNIPERS</h1>
+    <div>
+        <!-- <div class="tab-container">
+            <input type="checkbox" id="register" class="tab-input">
+            <label for="register" class="tab-label">Register</label>
+            <input type="checkbox" id="submit" class="tab-input">
+            <label for="submit" class="tab-label">Submit</label>
+            <input type="checkbox" id="client" class="tab-input">
+            <label for="client" class="tab-label">Client</label>
+            <input type="checkbox" id="owner" class="tab-input">
+            <label for="owner" class="tab-label">Owner</label>
+
+            <div class="tab-content">
+                <div class="tab-panel">Content for Register</div>
+                <div class="tab-panel">Content for Submit</div>
+                <div class="tab-panel">Content for Client</div>
+                <div class="tab-panel">Content for Owner</div>
+            </div>
+        </div> -->
     <div class="questionBlock"> </div>
     <div class="answerBlock"> </div>
+
         <div class="textAreaBlock">
             <textarea name="" id="sendText" cols="20" rows="5" placeholder="Send a message.."></textarea>   
             <button type="button" id="action-button" onclick="sendAction()"><img src="sendBtn.png" /></button>
         </div>
+    </div>
 </div>
 </body>
 </html>
-

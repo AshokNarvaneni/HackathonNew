@@ -28,15 +28,26 @@ def create_table_definition(df, table_name):
     return table_definition
 
 
-def combine_prompts(dataframes, query):
+# def combine_prompts(dataframes, query):
+#     combined_prompt = ""
+#     for table_name, df in dataframes.items():
+#         table_definition = create_table_definition(df, table_name)
+#         query_prompt = f"-- sql query to answer for: {query} on {table_name}:"
+#         combined_prompt += f"{table_definition}\n{query_prompt}\n\n"
+
+#     return combined_prompt
+
+
+def combine_prompts(dataframes, tables, query):
     combined_prompt = ""
-    for table_name, df in dataframes.items():
-        table_definition = create_table_definition(df, table_name)
-        query_prompt = f"-- sql query to answer for: {query} on {table_name}:"
-        combined_prompt += f"{table_definition}\n{query_prompt}\n\n"
-
+    for table_name in tables:
+        df = dataframes.get(table_name)
+        if df is not None:  # Check if the dataframe exists for the given table name
+            table_definition = create_table_definition(df, table_name)
+            query_prompt = f"-- SQL query to answer for: {query} on {table_name}:"
+            combined_prompt += f"{table_definition}\n{query_prompt}\n\n"
+            print("query Prompt: " , query_prompt)
     return combined_prompt
-
 
 def handle_response(response):
     # query = response['choices'][0]['message']['content']
@@ -70,7 +81,6 @@ def execute_sql(query):
     column_names = [col[0] for col in cursor.description]
     results = [dict(zip(column_names, row)) for row in rows]
 
-    print("Result:", results)
     # Closing the connection
     conn.close()
     
@@ -142,9 +152,7 @@ def execute_athena(query):
 def get_prompt_result(event):
     try:
         messages = retrive_param(event, "MESSAGES", [])
-        print("ChatGPT messages:", messages);
         query = retrive_param(event, "QUERY", "Thanks")
-        print("ChatGPT query:", query);
         messages.append({"role": "user", "content": query})
         response = openai.chat.completions.create(
             model=MODEL_NAME,
