@@ -1,0 +1,4 @@
+Email,FirstName,LastName,PhoneNumber,BillingStreet,BillingCity,BillingState,BillingCountry,ZipCode,UserRole,IsUserActive,IsSolutionActive
+sammytest42@yopmail.com,sammy,Test,2123590987,,stillwater,Ohio,United States,,Basic User,1,1
+distributortest12@yopmail.com,Distributor,test,1123209870,17 Mill St,Hannibal,New York,United States,13074,Distributor,1,1
+installertest20@yopmail.com,installer,test,129063455,58 Cliff Ave,Hempstead,New York,United States,11550,Installer,1,1

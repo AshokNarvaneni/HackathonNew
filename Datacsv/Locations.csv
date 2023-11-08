@@ -1,4 +1,4 @@
-﻿ID,UserID,Name,Address1,Address2,City,State,ZIP,PhoneNumber,SecondaryPhoneNumber,Country,County,Email,CreatedBy,CreatedDate,ModifiedBy,ModifiedDate,AccountId
-10536,632,Palm Desert A,45672 Ocotillo Drive,,Palm Desert,CA,92260,(345) 678-7111,NULL,US,NULL,test@gmail.com,632,2023-08-24 12:12:21.900,632,2023-10-16 07:30:45.060,SF122619
-10541,650,VSG deepika,Hyderabad Lane,Temple street,Markham,ON,50005,(938) 388-4848,NULL,CA,NULL,test123@gmail.com,650,2023-08-28 09:22:36.487,NULL,NULL,SF179309
-10548,657,Cottage Grove location,77744 Center Street,,Cottage Grove,OR,97424,(727) 627-6217,NULL,US,NULL,test@gmail.com,657,2023-09-07 09:21:04.300,NULL,2023-10-16 07:28:42.120,SF151413
+Name,Address1,City,State,ZIP,PhoneNumber,Country,County,Email,AccountId
+Palm Desert A,45672 Ocotillo Drive,Palm Desert,CA,92260,(345) 678-7111,US,NULL,test@gmail.com,SF122619
+VSG deepika,Hyderabad Lane,Markham,ON,50005,(938) 388-4848,CA,NULL,test123@gmail.com,SF179309
+Cottage Grove location,77744 Center Street,Cottage Grove,OR,97424,(727) 627-6217,US,NULL,test@gmail.com,SF151413

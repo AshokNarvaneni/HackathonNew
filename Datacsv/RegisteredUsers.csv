@@ -1,4 +1,0 @@
-Id,Email,FirstName,LastName,PhoneNumber,CompanyName,BillingStreet,BillingCity,BillingState,BillingCountry,ZipCode,UserRole,IsUserActive,IsSolutionActive
-120,sammytest42@yopmail.com,sammy,Test,2123590987,AlphaDist,,stillwater,Ohio,United States,,Basic User,1,1
-170,distributortest12@yopmail.com,Distributor,test,1123209870,,17 Mill St,Hannibal,New York,United States,13074,Distributor,1,1
-171,installertest20@yopmail.com,installer,test,129063455,,58 Cliff Ave,Hempstead,New York,United States,11550,Installer,1,1
