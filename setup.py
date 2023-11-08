@@ -1,11 +1,6 @@
 import pandas as pd
 from sqlalchemy import create_engine
 
-OPEN_APIKEY = "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"
-# MODEL_NAME = "gpt-4"  #
-MODEL_NAME = "gpt-3.5-turbo"
-# ft:gpt-3.5-turbo-0613:personal::82dk0jJj
-
 temp_db = create_engine("sqlite:///salaries.db")
 
 user_df = pd.read_csv("Datacsv/RegisteredUsers.csv")

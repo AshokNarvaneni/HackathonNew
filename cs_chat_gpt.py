@@ -4,20 +4,10 @@ import boto3
 import pymssql
 import time
 from setup import *
+from config import *
 
 openai.api_key = OPEN_APIKEY
-SERVER="sqldbvsgtexa001.dover-global.net"
-DATABASE="TexaDbTest"
-UID="sqldbadmin"
-PWD="M4e7Ug9L&@wM1n$@LWkf8"
-# Configuration for SQL Server
-SQL_SERVER_CONNECTION_STRING = """
-DRIVER={ODBC Driver 18 for SQL Server};
-SERVER=sqldbvsgtexa001.dover-global.net;
-DATABASE=TexaDbTest;
-UID=sqldbadmin;
-PWD=M4e7Ug9L&@wM1n$@LWkf8;
-"""
+
 
 # Create dataframes for each table
 def create_table_defination1(df):

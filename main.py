@@ -9,6 +9,7 @@ from typing import List, Dict
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from starlette.templating import Jinja2Templates
+from config import *
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
