@@ -7,17 +7,7 @@ from setup import *
 from config import *
 
 openai.api_key = OPEN_APIKEY
-
-
-# Create dataframes for each table
-def create_table_defination1(df):
-    prompt = """
-        ### sqlite SQL table, with its properties:
-        #
-        # event_types({})
-        #
-    """.format(",".join(str(col) for col in df.columns))
-    return prompt
+table_definitions = {} # This will store your table definitions
 
 
 def create_table_definition(df, table_name):
@@ -26,6 +16,14 @@ def create_table_definition(df, table_name):
     table_definition += ",\n".join(column_definitions)
     table_definition += "\n)"
     return table_definition
+
+def initialize_table_definitions():
+    global table_definitions
+    for table_name, df in dataframes.items():
+        table_definitions[table_name] = create_table_definition(df, table_name)
+        
+# Call this function once during your application's initialization
+initialize_table_definitions()
 
 
 # def combine_prompts(dataframes, query):
@@ -43,10 +41,10 @@ def combine_prompts(dataframes, tables, query):
     for table_name in tables:
         df = dataframes.get(table_name)
         if df is not None:  # Check if the dataframe exists for the given table name
-            table_definition = create_table_definition(df, table_name)
+            # table_definition = create_table_definition(df, table_name)
+            table_definition = table_definitions[table_name]
             query_prompt = f"-- SQL query to answer for: {query} on {table_name}:"
             combined_prompt += f"{table_definition}\n{query_prompt}\n\n"
-            print("query Prompt: " , query_prompt)
     return combined_prompt
 
 def handle_response(response):
@@ -168,6 +166,7 @@ def get_prompt_result(event):
         return (execute_sql(text_response), messages)
 
     except Exception as error:
+        print("ERROR is " , error)
         return ([{"type": "error", "text": "Sorry Couldn't find the results for the query, Please give me more specific and refined Query."}], messages)
 
 #if __name__ == "__main__":

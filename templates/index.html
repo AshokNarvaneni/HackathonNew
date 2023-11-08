@@ -11,15 +11,17 @@
     color:#fff ;
 }
 .mainContainer {
-    box-sizing: border-box;    
+    box-sizing: border-box;
 }
 .textAreaBlock {
     display:inline-block;
   position:fixed;
   width: 100%;
-  bottom:20px;
+  bottom:50px;
   left: 0;
-  
+  height: 50px;
+  margin-top: 100px;
+
 }
 textarea {
   resize: none;
@@ -48,13 +50,17 @@ textarea {
 
 
 button{
-  position:absolute;
-  right: 155px;
-    top: 29px;
-  background: transparent;
+    position: absolute;
+    right: 115px;
+    top: 20px;
     border: none;
-    padding: 0;
     margin: 0;
+    background: green;
+    padding: 19px;
+    border-top-right-radius: 10%;
+    border-bottom-right-radius: 10%;
+    color: #fff;
+    cursor: pointer;
 }
 img {
     cursor: pointer;
@@ -63,21 +69,21 @@ img {
 }
 .answerBlock {
     width: 80%;
-    margin: 0 auto;  
+    margin: 0 auto;
     background-color: transparent;
     color: #fff;
     margin-bottom: 100px;
-    padding: 5px; 
+    padding: 5px;
     padding-left: 20px;
     font-size: 14px;
     line-height: 22px;
-   
+    overflow: auto;
+    height:300px;
+
 }
-.questionBlock{  
+.questionBlock{
      padding:10px;
      background-color: #343541;
-     margin-top: 20px;  
-  
 }
 .questionBlock p {
     width: 80%;
@@ -85,7 +91,9 @@ img {
     font-size: 16px;
 }
 .heading {
-    text-align: center;  
+    text-align: left;
+    padding-left: 10px;
+    padding-top: 5px;
     background-color: #343541;
     position: fixed;
     top:0;
@@ -118,29 +126,32 @@ img {
 .tab-container {
             display: flex;
             justify-content:center;
-            padding:40px;
+            padding: 40px 40px 20px 40px;
             margin-top: 35px
         }
-        
+
 
         .tab-input {
             display: none;
         }
 
         .tab-label {
-            padding: 5px;
+            padding: 5px 10px;
             cursor: pointer;
             background-color: #eee;
             border: 1px solid #ccc;
             border-radius: 20px;
             margin: 5px;
+            margin-bottom: 0px;
             text-align: center;
-          width: 250px;
+          /* width: 120px; */
           color: black;
+        font-size: 12px;
+        font-weight: 600;
         }
 
         .tab-label:hover {
-            
+
               background-color: #343541;
   color: white;
         }
@@ -160,8 +171,64 @@ img {
             margin: 5px;
         }
 
-      
+        .loader {
+  border: 5px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 5px solid gray;
+  width: 30px;
+  height: 30px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+#loading-text {
+    justify-content: center;
+    align-items: center;
+}
+ 
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+ 
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 
+::-webkit-scrollbar {
+
+  width: 20px;
+
+}
+ 
+/* Track */
+
+::-webkit-scrollbar-track {
+
+  box-shadow: inset 0 0 5px grey; 
+
+  border-radius: 10px;
+
+}
+
+/* Handle */
+
+::-webkit-scrollbar-thumb {
+
+  background: #04AA6D; 
+
+  border-radius: 10px;
+
+}
+ 
+/* Handle on hover */
+
+::-webkit-scrollbar-thumb:hover {
+
+  background: #059862 ; 
+
+}
 
 </style>
 
@@ -171,34 +238,43 @@ img {
         function clearLocalStorage() {
             localStorage.clear();
         }
- 
+
         // Add an event listener to the beforeunload event
         window.addEventListener('beforeunload', function() {
             clearLocalStorage();
         });
 
     async function sendAction() {
+
         
+        const loadingText = document.getElementById("loading-text");
+        const errorText = document.getElementById("error-text");
+        loadingText.style.display = 'flex';
+        loadingText.style.justifyContent = 'center';
+        loadingText.style.alignItems = 'center';
+
+
         // You can retrieve the data from local storage later using:
         var retrievedData = JSON.parse(localStorage.getItem("myMessagesData"));
-        
+
         const defaultMessage = {
         role: "assistant",
         content: "you are SQL query generator AI model"
         };
         let messagesToSend;
     if (retrievedData !== null) {
-        messagesToSend = retrievedData; 
+        messagesToSend = retrievedData;
     } else {
         messagesToSend = [defaultMessage];
     }
+
         const requestData = {
             text: document.getElementById('sendText').value ,
             messages: messagesToSend,
-            tables: ["users", "userequipments"]
+            tables: ["users"]
         };
-   
-        
+
+
         const response = await fetch('/action', {
             method: 'POST',
             headers: {
@@ -208,16 +284,16 @@ img {
         });
 
         const result = await response.json();
-        
+        loadingText.style.display = 'none';
         // Convert the data to a JSON string
         var dataToStoreString = JSON.stringify(result.messages);
- 
+
         // Store the data in local storage
         localStorage.setItem("myMessagesData", dataToStoreString);
- 
+
          // Update the answerBlock with the response data
-        document.querySelector('.questionBlock').innerHTML =  document.getElementById('sendText').value; 
-        document.getElementById('sendText').value =  ''; 
+        document.querySelector('.questionBlock p').innerHTML =  document.getElementById('sendText').value;
+        document.getElementById('sendText').value =  '';
 
         // Handle the response data
 
@@ -258,29 +334,27 @@ img {
 <div class="mainContainer">
     <h1 class="heading">AI SNIPERS</h1>
     <div>
-        <!-- <div class="tab-container">
-            <input type="checkbox" id="register" class="tab-input">
-            <label for="register" class="tab-label">Register</label>
-            <input type="checkbox" id="submit" class="tab-input">
-            <label for="submit" class="tab-label">Submit</label>
-            <input type="checkbox" id="client" class="tab-input">
-            <label for="client" class="tab-label">Client</label>
-            <input type="checkbox" id="owner" class="tab-input">
-            <label for="owner" class="tab-label">Owner</label>
+        <div class="tab-container">
+            <input type="checkbox" id="users" class="tab-input">
+            <label for="users" class="tab-label">USERS</label>
+            <input type="checkbox" id="equipments" class="tab-input">
+            <label for="equipments" class="tab-label">EQUIPMENTS</label>
+            <input type="checkbox" id="locations" class="tab-input">
+            <label for="locations" class="tab-label">LOCATIONS</label>
 
             <div class="tab-content">
                 <div class="tab-panel">Content for Register</div>
                 <div class="tab-panel">Content for Submit</div>
                 <div class="tab-panel">Content for Client</div>
-                <div class="tab-panel">Content for Owner</div>
             </div>
-        </div> -->
-    <div class="questionBlock"> </div>
-    <div class="answerBlock"> </div>
-
+        </div>
+        <div class="questionBlock"><p></p> </div>
+        <p id="loading-text" style="display: none;" class="loader"></p>
+        <p id="error-text" style="color: red;"></p>
+        <div class="answerBlock"> </div>
         <div class="textAreaBlock">
-            <textarea name="" id="sendText" cols="20" rows="5" placeholder="Send a message.."></textarea>   
-            <button type="button" id="action-button" onclick="sendAction()"><img src="sendBtn.png" /></button>
+            <textarea name="" id="sendText" cols="20" rows="5" placeholder="Send a message.."></textarea>
+            <button class="button" type="button" id="action-button" onclick="sendAction()"> SEND </button>
         </div>
     </div>
 </div>
