@@ -1,0 +1,4 @@
+UserID,EquipmentNumber,StatusId,RegistrationSource,InstallerTypeID,InstallerId,InstallerFirstName,InstallerLastName,InstallerPhone,InstallerEmail,InstallerLocationId,CreatedBy,CreatedDate,ModifiedBy,ModifiedDate,CompanyName,RegisteredBy,InstallerName,IsTransferRequested,RequestedBy,RequestedDate
+1,0000000000,1,WebApp,2,0018F00000Gw8utQAB,NULL,NULL,NULL,NULL,370,1,2023-07-12 06:29:17.677,NULL,NULL,NULL,1,EAGLE AUTOMOTIVE EQUIPMENT IV,NULL,NULL,NULL
+1,DAW21K0038,1,Mobile,1,,Chandler,Bing,(879) 645-4123,Chandler@yopmail.com,125,1,2023-05-30 08:35:22.733,NULL,NULL,,NULL,NULL,NULL,NULL,NULL
+1,DKR21K0243,1,WebApp,3,NULL,NULL,NULL,(987) 654-3212,installer@gmail.com,194,1,2023-06-05 13:48:47.823,NULL,NULL,EvokeVsg,1,NULL,NULL,NULL,NULL

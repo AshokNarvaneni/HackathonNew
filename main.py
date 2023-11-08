@@ -60,6 +60,8 @@ async def root(item: Item):
 
     messages.append(
         {"role": "assistant", "content": "you are sql query generator AI model"})
+    # messages.append(
+    #     {"role": "assistant", "content": "you are an Json praser AI model and convert to human readable"})
 
     messages.append({"role": "user", "content": text})
     
@@ -71,8 +73,33 @@ async def root(item: Item):
 
     (result, _messages) = get_prompt_result(
         {"MESSAGES": messages, "QUERY": combined_prompt})
-     
+
     print("Response result: ", result)
+#     #jsonRes = execute_sql(result)
+#     jsonRes = '''[{
+#     "Email": "1289@yopmail.com",
+#     "FirstName": "Abhiram",
+#     "LastName": "Challapalli",
+#     "PhoneNumber": 19876567890,
+#     "CreatedDate": "2023-06-13 10:24:52.193",
+#     "MiddleName": "",
+#     "CompanyName": "ABC Company",
+#     "BillingStreet": "4025 Windward Plaza",
+#     "BillingCity": "Alpharetta",
+#     "BillingState": "4025 Windward Plaza",
+#     "BillingCountry": "United States",
+#     "BillingCounty": "United States",
+#     "ZipCode": 30005,
+#     "UserRole": "Basic User",
+#     "IsUserActive": 1,
+#     "IsSolutionActive": 1
+#   }]'''
+#     queryNew = f"write a simple sentence in active voice from this json {jsonRes}"
+
+#     (resultNew, _messages) = get_prompt_result(
+#         {"MESSAGES": messages, "QUERY":queryNew})
+     
+#     print("Response result: ", resultNew)
     messages = _messages
     # messages = _messages
     return {"data": result, "messages":messages}
