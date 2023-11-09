@@ -72,25 +72,37 @@ def retrive_param(event, key, default):
 
 # Function to execute query in SQL Server
 def execute_sql(query):
-    # Establishing the connection
-    #conn = pyodbc.connect(SQL_SERVER_CONNECTION_STRING)
-    # query1 = "SELECT * from users"
-    conn = pymssql.connect(server=SERVER, user=UID, password=PWD, database=DATABASE)
-    cursor = conn.cursor()
-    # sql server odbc driver for macos
-    # Executing the query
-    cursor.execute(query)
-    
-    # Fetching results
-    rows = cursor.fetchall()
+    try:
+        # Establishing the connection
+        #conn = pyodbc.connect(SQL_SERVER_CONNECTION_STRING)
+        # query1 = "SELECT * from users"
+        conn = pymssql.connect(server=SERVER, user=UID, password=PWD, database=DATABASE)
+        cursor = conn.cursor()
+        # sql server odbc driver for macos
+        # Executing the query
+        cursor.execute(query)
+        
+        # Fetching results
+        rows = cursor.fetchall()
 
-    #convert list of tuples as list of dictionaries
-    column_names = [col[0] for col in cursor.description]
-    results = [dict(zip(column_names, row)) for row in rows]
+        #convert list of tuples as list of dictionaries
+        column_names = [col[0] for col in cursor.description]
+        results = [dict(zip(column_names, row)) for row in rows]
 
-    # Closing the connection
-    conn.close()
-    
+    except pymssql.DatabaseError as e:
+        # Catch and print database errors
+        print(f"Database error occurred: {e}")
+    except pymssql.InterfaceError as e:
+        # Catch and print issues with database connection/interface
+        print(f"Database interface error occurred: {e}")
+    except Exception as e:
+        # Catch and print all other errors
+        print(f"An error occurred: {e}")
+    finally:
+        # Ensuring that the database connection is closed
+        if conn:
+            conn.close()
+
     return results
 
 # ... (your other functions)
@@ -121,6 +133,18 @@ def get_prompt_result(event):
         return (execute_sql(text_response), messages)
 
     except Exception as error:
-        print("ERROR is " , error)
-        return ([{"type": "error", "text": "Sorry Couldn't find the results for the query, Please give me more specific and refined Query."}], messages)
+        print("An error occurred during SQL execution:", error)
+        error_message = f"There was an error with the SQL query: {error}"
+        messages.append({"role": "system", "content": error_message})
+
+        # Send the error message back to the ChatGPT model for a revised query
+        response = openai.ChatCompletion.create(
+            model=MODEL_NAME,
+            messages=messages
+        )
+        revised_text_response = handle_response(response)
+        messages.append({"role": "assistant", "content": revised_text_response})
+        print('Revised SQL Query:', revised_text_response);
+        return (execute_sql(text_response), messages)
+        #return ([{"type": "error", "text": "Sorry Couldn't find the results for the query, Please give me more specific and refined Query."}], messages)
     
