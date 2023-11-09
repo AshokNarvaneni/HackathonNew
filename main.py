@@ -58,8 +58,8 @@ async def root(item: Item):
     messages = item.messages
     table_names = item.tables
 
-    messages.append(
-        {"role": "assistant", "content": "you are sql query generator AI model"})
+    # messages.append(
+    #     {"role": "assistant", "content": "you are sql query generator AI model"})
     # messages.append(
     #     {"role": "assistant", "content": "you are an Json praser AI model and convert to human readable"})
 

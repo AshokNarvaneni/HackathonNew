@@ -47,7 +47,7 @@ def combine_prompts(dataframes, tables, query):
              # Append the table definition to the combined prompt
             combined_prompt += f"{table_definition}\n"
     # After all table definitions, append the query
-    query_prompt = f"-- SQL query to answer for: {query} on the SQL Server tables above."
+    query_prompt = f"-- SQL query to answer for: {query} on the tables above."
     combined_prompt += f"{query_prompt}\n\n"
     return combined_prompt
 
@@ -124,6 +124,8 @@ def get_prompt_result(event):
             messages=messages
         )
         # print("ChatGPT Response:", response)
+        # if messages and messages[-1]["role"] == "user":
+        #     messages.pop()
         text_response = handle_response(response)
         messages.append({"role": "assistant", "content": text_response})
         
