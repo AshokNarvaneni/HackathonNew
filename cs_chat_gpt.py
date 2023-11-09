@@ -135,8 +135,8 @@ def get_prompt_result(event):
         return (execute_sql(text_response), messages)
 
     except Exception as error:
-        print("An error occurred during SQL execution:", error)
-        error_message = f"There was an error with the SQL query: {error}"
+        error_message = f"-- SQL query to answer for: {text_response} on above tables"
+        print("An error occurred during SQL execution:", error_message)
         messages.append({"role": "system", "content": error_message})
 
         # Send the error message back to the ChatGPT model for a revised query

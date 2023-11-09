@@ -2,6 +2,9 @@
 <html>
 <head>
     <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@1,800&display=swap" rel="stylesheet">
 <style>
     body {
     font-family: 'Open Sans';font-size: 22px;
@@ -28,7 +31,7 @@ textarea {
   --tw-shadow: 0 0 transparent;
     -webkit-appearance: none;
     appearance: none;
-    background-color: #40414f;
+    background-color: #fff;
     border-color: #40414f;
     border-radius: 5px;
     border-width: 1px;
@@ -39,13 +42,14 @@ textarea {
     -webkit-box-shadow: -1px -1px 7px 0px rgba(142,142,160,0.61);
     -moz-box-shadow: --1px -1px 7px 0px rgba(142,142,160,0.61);
     border: none;
-    height: 38px;
+    height: 30px;
     width: 80%;
     margin: 0 auto;
     margin-top: 20px;
     display: flex;
-    color: #fff;
+    color: #000;
     outline:0;
+    padding-top: 13px;
 }
 
 
@@ -55,12 +59,13 @@ button{
     top: 20px;
     border: none;
     margin: 0;
-    background: #3cb371;
-    padding: 19px;
-    border-top-right-radius: 10%;
-    border-bottom-right-radius: 10%;
+    background: #1a73e8;
+    padding: 18px;
+    border-top-right-radius: 7%;
+    border-bottom-right-radius: 7%;
     color: #fff;
     cursor: pointer;
+    font-weight: bold;
 }
 img {
     cursor: pointer;
@@ -84,6 +89,7 @@ img {
 .questionBlock{
      padding:10px;
      background-color: #343541;
+     margin-top: 100px;
 }
 .questionBlock p {
     width: 80%;
@@ -91,15 +97,16 @@ img {
     font-size: 16px;
 }
 .heading {
-    text-align: left;
-    padding-left: 10px;
-    padding-top: 5px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 35px;
     background-color: #343541;
     position: fixed;
-    top:0;
+    top: 0;
     left: 0;
     right: 0;
     margin: 0;
+    padding: 5px;
+    padding-left: 25px;
 }
 
 .myTable {
@@ -201,37 +208,28 @@ img {
 }
 
 ::-webkit-scrollbar {
-
-  width: 20px;
-
+  width: 10px;
 }
  
 /* Track */
 
 ::-webkit-scrollbar-track {
-
   box-shadow: inset 0 0 5px grey; 
-
-  border-radius: 10px;
-
+  border-radius: 5px;
 }
 
 /* Handle */
 
 ::-webkit-scrollbar-thumb {
-
-  background: #04AA6D; 
-
-  border-radius: 10px;
+  background: #1a73e8; 
+  border-radius: 5px;
 
 }
  
 /* Handle on hover */
 
 ::-webkit-scrollbar-thumb:hover {
-
-  background: #059862 ; 
-
+  background: #1a73e8 ; 
 }
 
 </style>
@@ -295,6 +293,10 @@ img {
         // Store the data in local storage
         localStorage.setItem("myMessagesData", dataToStoreString);
 
+        
+        const questionCnt = document.getElementById("questionCnt");
+        questionCnt.style.display = 'block';
+
          // Update the answerBlock with the response data
         document.querySelector('.questionBlock p').innerHTML =  document.getElementById('sendText').value;
         document.getElementById('sendText').value =  '';
@@ -337,27 +339,12 @@ img {
 <body>
 <div class="mainContainer">
     <h1 class="heading">AI SNIPERS</h1>
-    <div>
-        <div class="tab-container">
-            <input type="checkbox" id="users" class="tab-input">
-            <label for="users" class="tab-label">USERS</label>
-            <input type="checkbox" id="equipments" class="tab-input">
-            <label for="equipments" class="tab-label">EQUIPMENTS</label>
-            <input type="checkbox" id="locations" class="tab-input">
-            <label for="locations" class="tab-label">LOCATIONS</label>
-
-            <div class="tab-content">
-                <div class="tab-panel">Content for Register</div>
-                <div class="tab-panel">Content for Submit</div>
-                <div class="tab-panel">Content for Client</div>
-            </div>
-        </div>
-        <div class="questionBlock"><p></p> </div>
-        <p id="loading-text" style="display: none;" class="loader"></p>
-        <p id="error-text" style="color: red;"></p>
+    <div>      
+        <div class="questionBlock" id="questionCnt" style="display: none;"><p></p></div>
+        <p id="loading-text" style="display: none;" class="loader"></p>      
         <div class="answerBlock"> </div>
         <div class="textAreaBlock">
-            <textarea name="" id="sendText" cols="20" rows="5" placeholder="Send a message.."></textarea>
+            <textarea name="" id="sendText" cols="20" rows="5" placeholder="Ask a Question..."></textarea>
             <button class="button" type="button" id="action-button" onclick="sendAction()"> SEND </button>
         </div>
     </div>
