@@ -74,7 +74,7 @@ async def root(item: Item):
     (result, _messages) = get_prompt_result(
         {"MESSAGES": messages, "QUERY": combined_prompt})
 
-    print("Response result: ", result)
+    # print("Response result: ", result)
 #     #jsonRes = execute_sql(result)
 #     jsonRes = '''[{
 #     "Email": "1289@yopmail.com",
