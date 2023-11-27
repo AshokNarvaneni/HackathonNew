@@ -1,5 +1,7 @@
 # Hackathon
 
+C:\>python3 -m venv env
+
 C:\>cd env
 
 C:\env>Scripts\activate
